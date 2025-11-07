@@ -39,6 +39,18 @@ void insert(const string& word) {
      node->isEndOfWord = true;
      node->frequency++;
 }
+
+bool search(const string& word) {
+
+    TrieNode* node = root;
+    for(char ch : word) {
+        int index = ch - 'a';
+        if( !node->children[index])
+            return false;
+        node = node->children[index];
+    }
+    return node->isEndOfWord;
+}
 };
 
 
