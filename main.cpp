@@ -8,8 +8,8 @@ struct TrieNode {
       bool isEndOfWord;
       int frequency;
 
-      TrieNode(){
-      isEndOfWorld = false;
+      TrieNode() {
+      isEndOfWord = false;
       frequency = 0;
       for(int i = 0 ; i < 26 ; i++)
           children[i] = nullptr;
@@ -33,7 +33,7 @@ void insert(const string& word) {
      for( char ch : word) {
          int index = ch - 'a';
          if(!node->children[index])
-            node->children[index] = newTrieNode();
+            node->children[index] = new TrieNode();
          node = node->children[index];
      }
      node->isEndOfWord = true;
@@ -58,7 +58,7 @@ bool deleteWord(const string& word) {
 }
 
     private:
-bool deleteHelper(TrieNode* node, const string& word, int depth)
+bool deleteHelper(TrieNode* node, const string& word, int depth){
 
      if(!node)
      return false;
@@ -82,7 +82,7 @@ bool deleteHelper(TrieNode* node, const string& word, int depth)
 
 bool isEmpty(TrieNode* node){
      for(int i = 0; i < 26; i++)
-        if(node->children[i] return false;
+        if(node->children[i]) return false;
      return true;
 }
 };
@@ -104,7 +104,7 @@ int main() {
     cout << "Search 'apple' : " << (trie.search("apple")? "Found" : "Not Found") << endl;
     cout << "Search 'app' : " << (trie.search("app")? "Found" : "Not Found" ) << endl;
     cout << "Search 'battle' : " << (trie.search("battle")? "Found" : "Not Found") << endl;
-    cout << "Search 'bat' : " << (trie.search("bat")? "Found" : "Not Found" << endl;
+    cout << "Search 'bat' : " << (trie.search("bat")? "Found" : "Not Found") << endl;
     cout << "Search 'banana' : " << (trie.search("banana")? "Found" : "Not Found") << endl;
     cout << "Searcg 'appearance' : " << (trie.search("appearance")? "Found" : "Not Found") << endl;
 
