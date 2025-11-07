@@ -91,8 +91,30 @@ bool isEmpty(TrieNode* node){
 
 int main() {
 
+    Trie trie;
 
+    trie.insert("apple");
+    trie.insert("art");
+    trie.insert("app");
+    trie.insert("bat");
+    trie.insert("battle");
+    trie.insert("ball");
+    trie.insert("ballot");
 
+    cout << "Search 'apple' : " << (trie.search("apple")? "Found" : "Not Found") << endl;
+    cout << "Search 'app' : " << (trie.search("app")? "Found" : "Not Found" ) << endl;
+    cout << "Search 'battle' : " << (trie.search("battle")? "Found" : "Not Found") << endl;
+    cout << "Search 'bat' : " << (trie.search("bat")? "Found" : "Not Found" << endl;
+    cout << "Search 'banana' : " << (trie.search("banana")? "Found" : "Not Found") << endl;
+    cout << "Searcg 'appearance' : " << (trie.search("appearance")? "Found" : "Not Found") << endl;
+
+    trie.deleteWord("app");
+    trie.deleteWord("bat");
+
+    cout << "Search 'app' : " << (trie.search("app")? "Found" : "Not Found") << endl;
+    cout << "Search 'bat' : " << (trie.search("bat")? "Found" : "Not Found") << endl;
+    
 
     return 0;
 }
+
