@@ -51,6 +51,40 @@ bool search(const string& word) {
     }
     return node->isEndOfWord;
 }
+
+bool deleteWord(const string& word) {
+
+     return deleteHelper(root, word, 0);
+}
+
+    private:
+bool deleteHelper(TrieNode* node, const string& word, int depth)
+
+     if(!node)
+     return false;
+
+     if(depth == word.size()){
+        if(!node->isEndOfWord)
+           return false;
+           node->isEndOfWord = false;
+           return isEmpty(node);
+    }
+
+    int index = word[depth] - 'a';
+    if(deleteHelper(node->children[index], word, depth + 1)){
+      delete node->children[index];
+      node->children[index] = nullptr;
+      return !node->isEndOfWord && isEmpty(node);
+    }
+
+    return false;
+}
+
+bool isEmpty(TrieNode* node){
+     for(int i = 0; i < 26; i++)
+        if(node->children[i] return false;
+     return true;
+}
 };
 
 
