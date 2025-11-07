@@ -16,6 +16,33 @@ struct TrieNode {
       }
 };
 
+
+class Trie {
+
+      private:
+              TrieNode* root;
+
+      public:
+              Trie() {
+                   root = new TrieNode();
+              }
+
+void insert(const string& word) {
+
+     TrieNode* node = root;
+     for( char ch : word) {
+         int index = ch - 'a';
+         if(!node->children[index])
+            node->children[index] = newTrieNode();
+         node = node->children[index];
+     }
+     node->isEndOfWord = true;
+     node->frequency++;
+}
+};
+
+
+
 int main() {
 
 
