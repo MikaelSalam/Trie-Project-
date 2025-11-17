@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 using namespace std;
 
 struct TrieNode {
@@ -57,6 +58,21 @@ bool deleteWord(const string& word) {
      return deleteHelper(root, word, 0);
 }
 
+vector<string> autocomplete(const string& prefix) {
+
+    TrieNode* node = root;
+    for(char ch : prefix) {
+       int index = ch - 'a'
+       if(!node->children[index])
+       return {};
+       node = node->children[index];
+    }
+
+    vector<string> suggestions;
+    collectWords(node , prefix , suggestions);
+      return suggestions;
+}
+
     private:
 bool deleteHelper(TrieNode* node, const string& word, int depth){
 
@@ -85,6 +101,22 @@ bool isEmpty(TrieNode* node){
         if(node->children[i]) return false;
      return true;
 }
+
+void collectWords(TrieNode* node, string prefix , vector<string>& results) {
+
+     if(!node)
+     return;
+     if(node->isEndOfWord){
+        results.push_back(prefix);
+     }
+
+     for(int i = 0; i < 26; i++){
+       if(node->children[i]) {
+        char nextChar = 'a' + i;
+        collectWords(node->children[i], prefix + nextChar, results);
+       }
+     }
+ }
 };
 
 
@@ -95,11 +127,20 @@ int main() {
 
     trie.insert("apple");
     trie.insert("art");
+    trie.insert("ant");
     trie.insert("app");
+    trie.insert("application");
+    trie.insert("android");
+    trie.insert("appearance");
     trie.insert("bat");
     trie.insert("battle");
     trie.insert("ball");
     trie.insert("ballot");
+    trie.insert("battery");
+    trie.insert("car");
+    trie.insert("carry");
+    trie.insert("check");
+    trie.insert("change");
 
     cout << "Search 'apple' : " << (trie.search("apple")? "Found" : "Not Found") << endl;
     cout << "Search 'app' : " << (trie.search("app")? "Found" : "Not Found" ) << endl;
@@ -113,7 +154,25 @@ int main() {
 
     cout << "Search 'app' : " << (trie.search("app")? "Found" : "Not Found") << endl;
     cout << "Search 'bat' : " << (trie.search("bat")? "Found" : "Not Found") << endl;
-    
+
+    vector<string> suggestions = trie.autocomplete("ap");
+    cout << "\nSuggestions for 'ap':\n";
+    for (auto& word : suggestions){
+        cout << word << endl;
+    }
+
+    suggestions = trie.autocomplete("b");
+    cout << "\nSuggestions for 'b':\n";
+    for (auto&word : suggestions){
+        cout << word << endl;
+    }
+
+    suggestions = trie.autocomplete("ch");
+    cout << "\nSuggestions for 'ch':\n";
+    for (auto&word : suggestions) {
+        cout << word << endl;
+    }
+
 
     return 0;
 }
