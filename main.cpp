@@ -17,6 +17,10 @@ struct TrieNode {
       }
 };
 
+struct WordFreq{
+       string word;
+       int frequency;
+};
 
 class Trie {
 
@@ -73,6 +77,29 @@ vector<string> autocomplete(const string& prefix) {
       return suggestions;
 }
 
+vector<WordFreq> autocompleteWithFrequency(const string& prefix){
+
+     TrieNode* node = root;
+     for(char ch : prefix){
+        int index = ch - 'a';
+        if (!node -> children[index]) 
+        return {};
+        node = node->children[index];
+     }
+
+     vector<WordFreq> results;
+     collectionWordsWithFrequency(node, prefix , results);
+     
+     for(size_t i = 0; i < results.size(); i++){
+       for(size_t j = i + 1; j < results.size(); j++){
+          if(results[j].frequency > results[i].frequency) {
+            swap(results[i], results[j]);
+          }
+        }
+     }
+     return results;
+
+}
     private:
 bool deleteHelper(TrieNode* node, const string& word, int depth){
 
@@ -116,6 +143,21 @@ void collectWords(TrieNode* node, string prefix , vector<string>& results) {
         collectWords(node->children[i], prefix + nextChar, results);
        }
      }
+ }
+
+void collectionWordsWithFrequency(TrieNode* node, string prefix, vector<WordFreq>& results) {
+   if (!node)
+            return;
+        if (node->isEndOfWord) {
+            results.push_back({prefix, node->frequency});
+        }
+
+        for (int i = 0; i < 26; i++) {
+            if (node->children[i]) {
+                char nextChar = 'a' + i;
+                collectWordsWithFrequency(node->children[i], prefix + nextChar, results);
+            }
+        }
  }
 };
 
@@ -167,6 +209,23 @@ int main() {
         cout << word << endl;
     }
 
+    vector<WordFreq> suggestions = trie.autocompleteWithFrequency("ap");
+    cout << "\nSuggestions for 'ap' (ranked by frequency):\n";
+    for (auto& entry : suggestions) {
+        cout << entry.word << " (frequency: " << entry.frequency << ")\n";
+    }
+
+    vector<string> plainSuggestions = trie.autocomplete("b");
+    cout << "\nSuggestions for 'b' (ranked by frequency):\n";
+    for (auto& entry : suggestions) {
+        cout << entry.word <<"(frequency : " << entry.frequency <<")\n";
+    }
+
+    plainSuggestions = trie.autocomplete("ch");
+    cout << "\nSuggestions for 'ch'(ranked by frequency) :\n";
+    for (auto& entry : suggestions) {
+        cout << entry.word <<"(frequency : "<< entry.frequency <<")\n ";
+    }
     suggestions = trie.autocomplete("ch");
     cout << "\nSuggestions for 'ch':\n";
     for (auto&word : suggestions) {
